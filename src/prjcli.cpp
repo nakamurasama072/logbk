@@ -49,12 +49,12 @@ void show_help(const std::string& program_name) {
 bool logbk_cli(int argc, char* argv[]) {
     if (argc == 2 && std::string(argv[1]) == "help") {
         show_help(argv[0]);
-        return 0;
+        return EXECUTION_SUCCESS;
     }
     if (argc < 2 || argc > 3) {
         std::cerr << "ERROR: Invalid number of arguments.\n\n";
         show_help(argv[0]);
-        return 1;
+        return EXECUTION_FAILED;
     }
     std::string path_to_log = argv[1];
     std::string backup_dir = (argc == 3) ? argv[2] : LOG_BACKUP_DIR;
@@ -62,21 +62,21 @@ bool logbk_cli(int argc, char* argv[]) {
     if (is_directory(path_to_log)) {
         std::cerr << "ERROR: Your log file " << path_to_log
                   << " is actually a directory. Please specify a log file.\n";
-        return 1;
+        return EXECUTION_FAILED;
     }
     if (!file_or_dir_exists(path_to_log)) {
         std::cerr << "ERROR: Log file does not exist.\n";
-        return 1;
+        return EXECUTION_FAILED;
     }
     if (is_regular_file(backup_dir)) {
         std::cerr << "ERROR: Your backup path " << backup_dir
                   << " is actually a file. Please specify a directory.\n";
-        return 1;
+        return EXECUTION_FAILED;
     }
     if (archive_logs(path_to_log, backup_dir) != 0) {
         std::cerr << "Found errors when attempting to copy."
                   << " This program will be terminated.\n";
-        return 1;
+        return EXECUTION_FAILED;
     }
-    return 0;
+    return EXECUTION_SUCCESS;
 }

@@ -20,7 +20,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define BKTOOL_H
 
 #include <string>
-#include <sys/stat.h>
+
+constexpr bool EXECUTION_SUCCESS = false;
+constexpr bool EXECUTION_FAILED = true;
 
 bool log_cleanup(const std::string &path_to_log);
 bool create_directory(const std::string &dir_path, mode_t mode);

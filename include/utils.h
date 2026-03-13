@@ -20,6 +20,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define UTILS_H
 
 #include <string>
+#include <optional>
+#include <vector>
 
 bool is_root();
 bool file_or_dir_exists(const std::string &path);
@@ -28,5 +30,7 @@ bool is_regular_file(const std::string &path);
 std::string get_current_timestamp();
 std::string format_file_size(unsigned long size_in_bytes);
 bool create_tar_archive(const std::string &source_path, const std::string &file_name, const std::string &archive_path);
+std::optional<std::vector<std::string>> split_from_file(const std::string &loglist_path_str, char delimiter);
+
 
 #endif

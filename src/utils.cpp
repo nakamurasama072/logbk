@@ -21,10 +21,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <ctime>
 #include <iostream>
 #include <chrono>
-#include <time.h>
+#include <fstream>
+#include <ctime>
 #include <sstream>
 #include <iomanip>
 
@@ -37,13 +37,13 @@ bool file_or_dir_exists(const std::string &path) {
 }
 
 bool is_directory(const std::string &path) {
-    struct stat path_stat;
+    struct stat path_stat{};
     if (stat(path.c_str(), &path_stat) != 0) return false;
     return S_ISDIR(path_stat.st_mode);
 }
 
 bool is_regular_file(const std::string &path) {
-    struct stat path_stat;
+    struct stat path_stat{};
     if (stat(path.c_str(), &path_stat) != 0) return false;
     return S_ISREG(path_stat.st_mode);
 }
@@ -71,7 +71,7 @@ std::string get_current_timestamp() {
 std::string format_file_size(unsigned long size_in_bytes) {
     const std::string size_units[] = {"B", "KiB", "MiB", "GiB", "TiB", "PiB"};
     unsigned short unit_index = 0;
-    double formatted_size = static_cast<double>(size_in_bytes);
+    auto formatted_size = static_cast<double>(size_in_bytes);
     while (formatted_size >= 1024 && unit_index < 5) {
         unit_index++;
         formatted_size = formatted_size / 1024;
@@ -94,9 +94,14 @@ bool create_tar_archive(const std::string &source_path,
     if (pid == 0) {
         execlp("tar", "tar", "-cJf", archive_path.c_str(), 
                "-C", source_path.c_str(), file_name.c_str(), nullptr);
-        _exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);
     }
     int status;
     waitpid(pid, &status, 0);
     return WIFEXITED(status) && (WEXITSTATUS(status) == 0);
+}
+
+std::optional<std::vector<std::string>> split_from_file(const std::string& loglist_path_str) {
+    // TODO: Complete
+
 }
