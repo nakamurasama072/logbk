@@ -20,12 +20,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define BKTOOL_H
 
 #include <string>
+#include <vector>
 
 constexpr bool EXECUTION_SUCCESS = false;
 constexpr bool EXECUTION_FAILED = true;
 
 bool log_cleanup(const std::string &path_to_log);
 bool create_directory(const std::string &dir_path, mode_t mode);
-bool archive_logs(const std::string &path_to_log, const std::string &custom_backup_dir);
+bool archive_logs(const std::vector<std::string> &path_to_logs, const std::string &custom_backup_dir);
+bool archive_log(const std::string &path_to_log, const std::string &custom_backup_dir);
 
 #endif

@@ -30,7 +30,7 @@ bool is_regular_file(const std::string &path);
 std::string get_current_timestamp();
 std::string format_file_size(unsigned long size_in_bytes);
 bool create_tar_archive(const std::string &source_path, const std::string &file_name, const std::string &archive_path);
-std::optional<std::vector<std::string>> split_from_file(const std::string &loglist_path_str, char delimiter);
+std::optional<std::vector<std::string>> split_from_file(const std::string &loglist_path_str);
 
 
 #endif
